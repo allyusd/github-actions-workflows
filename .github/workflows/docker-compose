@@ -1,0 +1,37 @@
+name: Docker Compose
+on:
+  workflow_call:
+    inputs:
+      projectName:
+        required: true
+        type: string
+    secrets:
+      host:
+        required: true
+      username:
+        required: true
+      key:
+        required: true
+env:
+  # Use docker.io for Docker Hub if empty
+  PROJECT_NAME: minesweeper
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_KEY }}
+        script: |
+          mkdir -p /app/${{ inputs.projectName }}
+          cd /app/${{ inputs.projectName }}
+          if [ -f docker-compose.yml ]; then docker-compose stop; fi
+          curl https://raw.githubusercontent.com/allyusd/${{ inputs.projectName }}/main/docker-compose.yml -o docker-compose.yml -s
+          cat docker-compose.yml
+          docker-compose pull
+          docker-compose up -d
