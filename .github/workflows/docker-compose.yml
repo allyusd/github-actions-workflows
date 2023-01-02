@@ -31,6 +31,7 @@ jobs:
         username: ${{ secrets.username }}
         key: ${{ secrets.key }}
         script: |
+          echo ${{ github.actor }}
           mkdir -p /app/${{ inputs.projectName }}
           cd /app/${{ inputs.projectName }}
           if [ -f docker-compose.yml ]; then docker-compose stop; fi
