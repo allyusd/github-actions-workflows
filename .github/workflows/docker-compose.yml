@@ -31,7 +31,7 @@ jobs:
           mkdir -p /app/${{ inputs.projectName }}
           cd /app/${{ inputs.projectName }}
           if [ -f docker-compose.yml ]; then docker-compose stop; fi
-          curl https://raw.githubusercontent.com/allyusd/${{ inputs.projectName }}/main/docker-compose.yml -s > docker-compose.yml
+          curl -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/allyusd/${{ inputs.projectName }}/main/docker-compose.yml -s > docker-compose.yml
           cat docker-compose.yml
           docker-compose pull
           docker-compose up -d
