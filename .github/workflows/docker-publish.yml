@@ -50,6 +50,6 @@ jobs:
         with:
           context: ./${{ inputs.subdir }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ inputs.subdir }}
+          tags: ${{ env.REGISTRY }}/${{ env.OWNER_LC }}/${{ inputs.subdir }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
