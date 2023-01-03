@@ -31,9 +31,9 @@ jobs:
         username: ${{ secrets.username }}
         key: ${{ secrets.key }}
         script: |
-          echo ${{ github.actor }}
           mkdir -p /app/${{ inputs.projectName }}
           cd /app/${{ inputs.projectName }}
+          echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           if [ -f docker-compose.yml ]; then docker-compose stop; fi
           curl -H 'Cache-Control: no-cache, no-store' https://raw.githubusercontent.com/${{ inputs.namespace }}/${{ inputs.projectName }}/main/docker-compose.yml -s > docker-compose.yml
           cat docker-compose.yml
